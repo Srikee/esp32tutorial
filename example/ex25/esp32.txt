@@ -1,0 +1,47 @@
+#include <LiquidCrystal_I2C.h>
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+#include "DHT.h"
+#define DHTPIN 2
+#define DHTTYPE DHT11
+int LED_R_PIN = 27;
+int LED_G_PIN = 14;
+DHT dht(DHTPIN, DHTTYPE);
+void setup() {
+  Serial.begin(115200);
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(0, 0);     // ไปที่ตัวอักษรที่ 0 แถวที่ 1
+  lcd.print("Welcome");
+  delay(1000);
+  dht.begin();
+  pinMode(LED_R_PIN, OUTPUT);
+  pinMode(LED_G_PIN, OUTPUT);
+  lcd.clear();
+}
+void loop() {
+  delay(2000);
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();
+  float f = dht.readTemperature(true);
+  if (isnan(h) || isnan(t) || isnan(f)) {
+    Serial.println("Failed to read from DHT sensor!");
+    return;
+  }
+  float hic = dht.computeHeatIndex(t, h, false);
+  float hif = dht.computeHeatIndex(f, h);
+  Serial.println("Humidity: " + String(h) + "% ");
+  Serial.println("Temperature: " + String(t) + " C / " + String(f) + " F");
+  Serial.println("Heat index: " + String(hic) + " C / " + String(hif) + " F");
+  Serial.println("-----------------------------");
+  lcd.setCursor(0, 0);     // ไปที่ตัวอักษรที่ 0 แถวที่ 1
+  lcd.print("Humi  : " + String(h) + " %   ");
+  lcd.setCursor(0, 1);     // ไปที่ตัวอักษรที่ 0 แถวที่ 2
+  lcd.print("Temp  : " + String(t) + " C   ");
+  if( h>35 ) {
+    digitalWrite(LED_R_PIN, HIGH);
+    digitalWrite(LED_G_PIN, LOW);
+  } else {
+    digitalWrite(LED_R_PIN, LOW);
+    digitalWrite(LED_G_PIN, HIGH);
+  }
+}

@@ -1,0 +1,10 @@
+int button = 13;
+void setup(){
+  pinMode(button, INPUT);
+  Serial.begin(115200);
+}
+void loop(){
+  if(digitalRead(button) == LOW){
+    Serial.println("Button Pressed");
+  }
+}

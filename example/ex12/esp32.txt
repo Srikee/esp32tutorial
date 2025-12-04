@@ -1,0 +1,24 @@
+int ledR = 2;
+int ledG = 4;
+int ledB = 16;
+
+void setup() {
+  pinMode(ledR, OUTPUT);
+  pinMode(ledG, OUTPUT);
+  pinMode(ledB, OUTPUT);
+}
+
+void loop() {
+  setColor(255, 0, 0);  // แดง
+  delay(500);
+  setColor(0, 255, 0);  // เขียว
+  delay(500);
+  setColor(0, 0, 255);  // น้ำเงิน
+  delay(500);
+}
+
+void setColor(int r, int g, int b) {
+  analogWrite(ledR, r);
+  analogWrite(ledG, g);
+  analogWrite(ledB, b);
+}

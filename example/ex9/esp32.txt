@@ -1,0 +1,15 @@
+#include <WiFi.h>
+const char* ssid = "iPhone 16";
+const char* pass = "1234567890";
+void setup(){
+  Serial.begin(115200);
+  WiFi.begin(ssid, pass);
+  while(WiFi.status() != WL_CONNECTED){
+    Serial.print(".");
+    delay(500);
+  }
+  Serial.println("WiFi Connected.");
+  Serial.print("IP = ");
+  Serial.println(WiFi.localIP());
+}
+void loop(){}

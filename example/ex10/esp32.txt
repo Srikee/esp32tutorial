@@ -1,0 +1,18 @@
+#include <WiFi.h>
+#include <ESPAsyncWebServer.h>
+char* ssid = "My ESP32";
+char* password = "12345678";
+AsyncWebServer server(80);
+#include "index.h"
+void setup() {
+  Serial.begin(9600);
+  WiFi.softAP(ssid, password);
+  delay(100);
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest* request) {
+      String html = index_page;
+      request->send(200, "text/html", html);
+  });
+  server.begin();
+}
+void loop() {
+}

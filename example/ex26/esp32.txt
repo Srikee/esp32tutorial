@@ -1,0 +1,38 @@
+#include <WiFi.h>
+#include <ESPAsyncWebServer.h>
+char* ssid = "My ESP32";
+char* password = "12345678";
+
+AsyncWebServer server(80);
+#include "index.h"
+
+int RELAY_PIN = 2;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(RELAY_PIN, OUTPUT);
+
+  WiFi.softAP(ssid, password);
+  delay(100);
+
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest* request) {
+    String html = index_page;
+    request->send(200, "text/html", html);
+  });
+
+  server.on("/on", HTTP_GET, [](AsyncWebServerRequest* request) {
+    digitalWrite(RELAY_PIN, HIGH);
+    request->send(200, "text/html", "OK Relay ON");
+  });
+
+  server.on("/off", HTTP_GET, [](AsyncWebServerRequest* request) {
+    digitalWrite(RELAY_PIN, LOW);
+    request->send(200, "text/html", "OK Relay OFF");
+  });
+
+  server.begin();
+}
+
+void loop() {
+
+}

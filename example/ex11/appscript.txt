@@ -1,0 +1,14 @@
+function doGet(e) {
+    var data = e?.parameter["data"] ?? "";
+    data = data.trim();
+    if( data=="" ) {
+      return ContentService.createTextOutput("Invalid Data");
+    }
+    var sheet_id = "1hYCBAlPCUsUyvWElwbnFVSwy8sghm785BhuyYHOncb0";
+    var sheet = SpreadsheetApp.openById(sheet_id).getSheetByName("data");
+    var lib = 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js';
+    eval(UrlFetchApp.fetch(lib).getContentText());
+    var date = moment().format("YYYY-MM-DD HH:mm:ss");
+    sheet.appendRow([date, data]);
+    return ContentService.createTextOutput("Save Success.");
+}

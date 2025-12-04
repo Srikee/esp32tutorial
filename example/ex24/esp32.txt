@@ -1,0 +1,25 @@
+int TRIG_PIN = 4;
+int ECHO_PIN = 2;
+int RELAY_PIN = 14;
+void setup() {
+  Serial.begin (115200);
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+  pinMode(RELAY_PIN, OUTPUT);
+}
+void loop() {
+  digitalWrite(TRIG_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG_PIN, LOW);
+  float duration_us = pulseIn(ECHO_PIN, HIGH);
+  float distance_cm = 0.017 * duration_us;
+  Serial.print("distance: ");
+  Serial.print(distance_cm);
+  Serial.println(" cm");
+  if( distance_cm < 20 ) {
+    digitalWrite(RELAY_PIN, HIGH);
+  } else {
+    digitalWrite(RELAY_PIN, LOW);
+  }
+  delay(500);
+}

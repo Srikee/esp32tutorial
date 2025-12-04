@@ -1,0 +1,11 @@
+void setup() {
+  Serial.begin(115200);
+}
+void loop() {
+  if (Serial.available()) { // ตรวจสอบว่ามีข้อมูลเข้ามาหรือไม่
+    String data = Serial.readString(); // อ่านค่าเข้ามา
+    data.trim();
+    Serial.print("Received: ");
+    Serial.println(data); // แสดงผลค่าที่รับได้
+  }
+}

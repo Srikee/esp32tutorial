@@ -1,0 +1,16 @@
+int r = 4;
+int led = 2;
+void setup() {
+  pinMode(r, INPUT_PULLUP);
+  pinMode(led, OUTPUT);
+  Serial.begin(115200);
+}
+void loop() {
+  int value = analogRead(r);
+  int value_map = map(value, 0, 4095, 0, 255);
+  Serial.print(value);
+  Serial.print("\t");
+  Serial.println(value_map);
+  analogWrite(led, value_map);
+  delay(100);
+}

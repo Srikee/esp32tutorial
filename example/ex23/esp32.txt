@@ -1,0 +1,17 @@
+int sensorPin = 2;
+int relay = 14;
+void setup() {
+  Serial.begin(115200);
+  pinMode(sensorPin, INPUT);
+  pinMode(relay, OUTPUT);
+}
+void loop() {
+  int val = analogRead(sensorPin);
+  Serial.println("val = " + String(val));
+  if( val<200 ) {
+    digitalWrite(relay, HIGH);
+  } else {
+    digitalWrite(relay, LOW);
+  }
+  delay(100);
+}
